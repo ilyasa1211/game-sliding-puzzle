@@ -27,10 +27,11 @@ canvas.onclick = (e) => {
 };
 function game() {
     clearCanvas(context);
-    if (win()) {
+    if (isWin(BLOCKS.flat())) {
         let text = "You Win";
         let measure = context.measureText(text);
         context.font = "50px Arial";
+        context.fillStyle = "white";
         context.fillText(text, canvas.width / 2 - measure.width / 2, canvas.height / 2 - measure.actualBoundingBoxAscent / 2);
         return;
     }
@@ -105,6 +106,17 @@ function getIntegerRandomNumberBetween(min, max) {
 function clearCanvas(context) {
     context.clearRect(0, 0, canvas.width, canvas.height);
 }
-function win() {
-    return false;
+function isWin(blocks) {
+    return blocks.every((value, index) => {
+        if (index === blocks.length - 1 && blocks[blocks.length - 1] == 0) {
+            return true;
+        }
+        return value === index + 1;
+    });
 }
+// function solve() {
+//   BLOCKS[0] = [1, 2, 3, 4];
+//   BLOCKS[1] = [5, 6, 7, 8];
+//   BLOCKS[2] = [9, 10, 11, 12];
+//   BLOCKS[3] = [13, 14, 15, 0];
+// }

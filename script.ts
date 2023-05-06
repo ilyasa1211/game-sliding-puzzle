@@ -26,17 +26,18 @@ while (AVAILABLE_POSITION.length > 0) {
 
 window.requestAnimationFrame(game);
 
-canvas.onclick = (e) => {
+canvas.onclick = (e: MouseEvent) => {
   window.clientX = e.clientX - window.innerWidth / 2 + canvas.width / 2;
   window.clientY = e.clientY - window.innerHeight / 2 + canvas.height / 2;
 };
 
 function game(): void {
   clearCanvas(context);
-  if (win()) {
+  if (isWin(BLOCKS.flat())) {
     let text: string = "You Win";
     let measure: TextMetrics = context.measureText(text);
     context.font = "50px Arial";
+    context.fillStyle = "white";
     context.fillText(
       text,
       canvas.width / 2 - measure.width / 2,
@@ -54,16 +55,16 @@ function game(): void {
         clientX >= blockXPos && clientX <= blockXPos + BLOCK_SIZE &&
         clientY >= blockYPos && clientY <= blockYPos + BLOCK_SIZE
       ) {
-        let row = Math.floor(index / SIZE);
-        let column = index % SIZE;
-        let emptyLeft = (column > 0)
+        let row: number = Math.floor(index / SIZE);
+        let column: number = index % SIZE;
+        let emptyLeft: boolean = (column > 0)
           ? !Boolean(BLOCKS[row][column - 1])
           : false;
-        let emptyRight = (column < SIZE - 1)
+        let emptyRight: boolean = (column < SIZE - 1)
           ? !Boolean(BLOCKS[row][column + 1])
           : false;
-        let emptyBelow = (row > 0) ? !Boolean(BLOCKS[row - 1][column]) : false;
-        let emptyAbove = (row < SIZE - 1)
+        let emptyBelow: boolean = (row > 0) ? !Boolean(BLOCKS[row - 1][column]) : false;
+        let emptyAbove: boolean = (row < SIZE - 1)
           ? !Boolean(BLOCKS[row + 1][column])
           : false;
 
@@ -134,6 +135,18 @@ function clearCanvas(context: CanvasRenderingContext2D): void {
   context.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-function win(): boolean {
-  return false;
+function isWin(blocks: Array<number>): boolean {
+  return blocks.every((value: number, index: number) => {
+    if (index === blocks.length - 1 && blocks[blocks.length - 1] == 0) {
+      return true;
+    }
+    return value === index + 1;
+  });
 }
+
+// function solve() {
+//   BLOCKS[0] = [1, 2, 3, 4];
+//   BLOCKS[1] = [5, 6, 7, 8];
+//   BLOCKS[2] = [9, 10, 11, 12];
+//   BLOCKS[3] = [13, 14, 15, 0];
+// }
