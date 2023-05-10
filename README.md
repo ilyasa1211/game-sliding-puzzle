@@ -2,4 +2,4 @@
 
 Sliding puzzle game using javascript
 
-> Note: Not finished yet
+![slide](https://github.com/SiapaLupa/sliding-puzzle/assets/110075636/422408b4-7d71-4895-8da2-97a2faf6923b)
